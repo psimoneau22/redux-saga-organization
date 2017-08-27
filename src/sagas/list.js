@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { call, takeEvery, takeLatest, all, put } from 'redux-saga/effects'
+import { call, takeEvery, takeLatest, all, put, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga';
 import { dataProxy } from '../api'
 import { updateFilter, updateItem, updateItems, updateStatus, selectors } from '../modules/list';
@@ -19,7 +19,7 @@ export default function* root(){
 };
 
 function* pageItems() {
-    const pager = yield selectors.pager();
+    const pager = yield select(selectors.pager);
     const pagedItems = yield call(fetchItems, pager);
     yield put(updateItems(pagedItems));
     return pagedItems;

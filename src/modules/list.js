@@ -5,14 +5,26 @@ import { createSelectors } from '../utils';
 const INITIAL_STATE = {
     loading: false,
     items: [],
+    total: 0,
     filter: '',
+    page: 1,
+    pageSize: 10,
+    sort: [ 
+        { field: 'value', dir: 'asc' },
+        { field: 'id', dir: 'asc' }
+    ]
 }
 
 // selectors
-export const selectors = createSelectors(state => state.list, {
-    pager: ({ filter, page, sort }) => ({ filter, skip: 0, take: 10, sort }),
-    items: state => state.items,
-});
+export const selectors = {
+    pager: ({list: { filter, page, pageSize, sort }}) => ({ 
+        filter,
+        page,
+        pageSize,
+        sort,
+    }),
+    items: state => state.list.items,
+};
 
 // actions
 export const updateStatus = createAction('UPDATE_STATUS')
